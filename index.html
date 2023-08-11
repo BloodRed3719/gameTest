@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset Countdown</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 100px;
+            overflow: hidden;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="password"]:focus {
+            outline: 0;
+            border-color: #7b9de1;
+        }
+        .button-wrapper {
+            text-align: center;
+        }
+        .sign-in {
+            background-color: #7b9de1;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+        }
+        .countdown {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    var storedPassword = localStorage.getItem("storedPassword"),
+        resetTime = localStorage.getItem("resetTime");
+
+    var authenticated = false; // Initialize authentication status
+
+    function signIn(e) {
+        e.preventDefault();
+        var t = document.getElementById("password").value;
+
+        if ("MLOBEGHSqwerty" === t) {
+            if (!storedPassword) {
+                storedPassword = t;
+                localStorage.setItem("storedPassword", storedPassword);
+            }
+            authenticated = true; // Set authenticated to true when the correct password is entered
+            window.location.replace("site-1.html"); // Redirect to "site-1" page
+        } else if (t === storedPassword) {
+            authenticated = true; // Set authenticated to true when the correct password is entered
+            window.location.replace("site-1.html"); // Redirect to "site-1" page
+        } else {
+            alert("Incorrect password. Please try again.");
+        }
+    }
+
+    function generateRandomPassword(e) {
+        var t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var s = "";
+        for (var o = 0; o < e; o++) {
+            var r = Math.floor(Math.random() * t.length);
+            s += t.charAt(r);
+        }
+        return s;
+    }
+
+    function resetPassword() {
+        storedPassword = generateRandomPassword(10);
+        localStorage.setItem("storedPassword", storedPassword);
+        resetTime = new Date().getTime() + 180000; // Set resetTime to 3 minutes (3 * 60 * 1000 milliseconds)
+        localStorage.setItem("resetTime", resetTime);
+        alert("Password has been reset.");
+    }
+
+    if (!storedPassword) {
+        resetPassword();
+    }
+    setTimeout(function () {
+        resetPassword();
+    }, 180000); // Call resetPassword() after 3 minutes (3 * 60 * 1000 milliseconds)
+
+    setInterval(function () {
+        if (authenticated) {
+            var e = new Date().getTime();
+            var t = resetTime - e;
+            if (t < 0) {
+                resetPassword();
+                t = 180000; // Reset password and set t to 3 minutes if time has passed
+            }
+            var s = Math.floor((t / 1000) % 60); // Calculate seconds
+            var o = Math.floor((t / 60000) % 60); // Calculate minutes
+            var r = Math.floor((t / 3600000) % 24); // Calculate hours
+            document.getElementById("countdown").textContent = "Reset Countdown: " + r + " hours, " + o + " minutes, " + s + " seconds";
+        }
+    }, 1000);
+</script>
+<div class="container">
+    <h1>Sign In</h1>
+    <div class="countdown" id="countdown"></div>
+    <form onsubmit="signIn(event)">
+        <div class="form-group"><label for="password">Password:</label> <input id="password" name="password" required type="password" /></div>
+        <div class="button-wrapper"><button class="sign-in" type="submit">Sign In</button></div>
+    </form>
+</div>
+</body>
+</html>
