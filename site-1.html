@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Site 1</title>
+</head>
+<body>
+<script>
+  var storedPassword = localStorage.getItem("storedPassword");
+
+  function checkAuthentication() {
+    if (!storedPassword) {
+      window.location.replace("https://bloodred3719.github.io/testGame/"); // Redirect to main page if not authenticated
+    }
+  }
+
+  // Check authentication status before allowing access to "site-1"
+  checkAuthentication();
+</script>
+<h1>Welcome to Site 1</h1>
+<p>This is a private page that requires authentication.</p>
+<p>Only authorized users can access this content.</p>
+</body>
+</html>
