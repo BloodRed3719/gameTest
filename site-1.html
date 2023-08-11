@@ -1,25 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Site 1</title>
+    <title>Secret Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .hidden {
+            display: none;
+        }
+        #secretLinks {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .links a {
+            display: block;
+            margin: 10px;
+            padding: 10px 20px;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #3498db;
+            background-color: #fff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .links a:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
+<div id="secretContent" class="hidden">
+    <div id="secretLinks" class="links">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
+    </div>
+</div>
 <script>
-  var storedPassword = localStorage.getItem("storedPassword");
+    var keysPressed = {};
+    var requiredKeys = ["q", "w", "e"];
 
-  function checkAuthentication() {
-    if (!storedPassword) {
-      <h1>Welcome to Site 1</h1>
-      document.write("This is a private page that requires authentication.")
-      document.write("Only authorized users can access this content.")
-    }
-    else {
-      document.write("Sup homie")
-    }
-  }
+    window.addEventListener("keydown", function(event) {
+        keysPressed[event.key] = true;
+        var allKeysPressed = requiredKeys.every(function(key) {
+            return keysPressed[key];
+        });
+        if (allKeysPressed) {
+            setTimeout(function() {
+                var allKeysStillPressed = requiredKeys.every(function(key) {
+                    return keysPressed[key];
+                });
+                if (allKeysStillPressed) {
+                    document.getElementById("secretContent").classList.remove("hidden");
+                }
+            }, 3000); // 3000 milliseconds = 3 seconds
+        }
+    });
 
-  // Check authentication status before allowing access to "site-1"
-  checkAuthentication();
+    window.addEventListener("keyup", function(event) {
+        delete keysPressed[event.key];
+    });
 </script>
 </body>
 </html>
