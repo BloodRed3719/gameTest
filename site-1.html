@@ -9,15 +9,17 @@
 
   function checkAuthentication() {
     if (!storedPassword) {
-      window.location.replace("https://bloodred3719.github.io/testGame/"); // Redirect to main page if not authenticated
+      <h1>Welcome to Site 1</h1>
+      document.write("This is a private page that requires authentication.")
+      document.write("Only authorized users can access this content.")
+    }
+    else {
+      document.write("Sup homie")
     }
   }
 
   // Check authentication status before allowing access to "site-1"
   checkAuthentication();
 </script>
-<h1>Welcome to Site 1</h1>
-<p>This is a private page that requires authentication.</p>
-<p>Only authorized users can access this content.</p>
 </body>
 </html>
